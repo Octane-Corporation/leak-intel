@@ -6,3 +6,54 @@ python -m venv .venv && source .venv/bin/activate
 pip install -e .
 uvicorn leakintel.api.main:app --reload
 Work in progress 🚀
+
+
+
+## Leak Intel – Project Overview
+## What this is:
+Leak Intel is an open-source leak intelligence platform built in Python.
+It collects data leaks from open sources (e.g., paste sites, GitHub secrets, public dumps), normalizes them into a consistent schema, enriches them with context (like WHOIS info), scores severity, and makes them searchable through a FastAPI API.
+The long-term goal: a reusable, community-driven tool that demonstrates practical OSINT skills and security engineering — something recruiters, researchers, and practitioners can use and build on.
+## System design at a glance-:
+Pipeline:
+Collectors → pull raw leak data from sources (paste sites, GitHub, etc.).
+Normalizer / Models → parse into a consistent LeakItem schema (IOC = indicator of compromise).
+Enrichment → add WHOIS data, reputation, context.
+Scoring & Deduplication → assign severity, remove duplicates.
+Storage → persist into Postgres (later).
+API & UI → serve via FastAPI (/search, /find, health check).
+Exports → formats for external platforms like MISP / OpenCTI.
+## Roles and contributions-:
+## Bhavishya (me)-:
+API & Models: Building the FastAPI endpoints (/health, /search), defining Pydantic models for LeakItem, SourceMeta, IOC.
+Pipeline integration: Connecting collectors → enrichment → scoring → storage.
+Postgres storage: Schema design, database integration, query endpoints.
+Docs & architecture: Writing setup instructions, diagrams, and contributor docs so new folks can onboard easily.
+Project governance: Repo setup, CI pipeline, branch protections, contributor workflow.
+## Vansh's part-:
+Collectors: Implement data source crawlers. First step: a fake paste site collector (collectors/paste_sites.py) returning sample leaks. Later: extend to real sources with safe/legal scraping.
+Enrichment modules: WHOIS lookups (enrichment/whois.py) to add domain metadata, scoring logic (enrichment/scoring.py) to prioritize severity, deduplication logic to collapse repeats.
+Exporters: Functions that transform leaks into JSON for external tools like MISP or OpenCTI.
+DevOps/CI support: Helping wire CI tests, repo polish (topics, social preview, README demo GIF).
+Community polish: Adding CONTRIBUTING.md, PR/Issue templates, and repo metadata so the project is attractive to contributors and recruiters.
+## Collaboration rules-:
+Branching: One issue → one branch → one PR. Names like feat/collector-paste-stub or feat/api-search.
+Code review: Each PR must be reviewed by the other person before merge.
+Main branch: Protected; no direct pushes.
+CI: Must pass before merging.
+Commits: Use clear, short messages (e.g., feat: add whois enrichment).
+Docs: Update docs if your change alters workflow or architecture.
+## Current MVP goals-:
+FastAPI up and running with /health and /search.
+Stub collector producing fake leaks.
+Models and schema validation in place.
+WHOIS enrichment and scoring stubs.
+In-memory pipeline working end to end.
+CI green and branch protections enabled.
+## Longer-term roadmap-:
+Swap in Postgres for persistent storage.
+Add scheduling (run collectors every X minutes).
+Add more collectors (GitHub secrets, other open sources).
+Build lightweight dashboard UI.
+Provide MISP/OpenCTI exports.
+Publish dataset + demo writeups.
