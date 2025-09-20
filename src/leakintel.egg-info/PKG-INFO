@@ -1,0 +1,18 @@
+Metadata-Version: 2.4
+Name: leakintel
+Version: 0.1.0
+Summary: Open-source leak intelligence platform
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi
+Requires-Dist: uvicorn[standard]
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+
+# Leak Intel
+Minimal FastAPI app to prove the pipeline works.
+
+## Run locally
+python -m venv .venv && source .venv/bin/activate
+pip install -e .
+uvicorn leakintel.api.main:app --reload
