@@ -1,5 +1,7 @@
 fastapi
 uvicorn[standard]
+pydantic[email]>=2
 
 [dev]
-pytest
+pytest>=7
+httpx>=0.24
